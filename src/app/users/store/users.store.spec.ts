@@ -27,13 +27,13 @@ describe('Users Selectors', () => {
     it('should find user by id (Factory Selector)', () => {
         // При фабриките първо извикваме функцията с параметъра, 
         // а после резултатната функция със стейта
-        const result = selectors.selectUserById(2)(initialState);
+        const result = selectors.selectById(2)(initialState);
         expect(result).toEqual(mockUsers[1]);
         expect(result?.name).toBe('Maria');
     });
 
     it('should return undefined if user id does not exist', () => {
-        const result = selectors.selectUserById(99)(initialState);
+        const result = selectors.selectById(99)(initialState);
         expect(result).toBeUndefined();
     });
 

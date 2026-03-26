@@ -2,7 +2,7 @@ import { Component, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as UsersActions from './../../store/users.actions';
 import { User } from '../../models/models';
-import { selectUserById } from '../../store/users.selectors';
+import { selectById } from '../../store/users.selectors';
 import { Observable } from 'rxjs';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +20,6 @@ export class UserDetails {
   paramId: number;
   constructor() {
     this.paramId = +this.activatedRoute.snapshot.params['id'];
-    this.user = this.store.select(selectUserById(this.paramId));
+    this.user = this.store.select(selectById(this.paramId));
   }
 }

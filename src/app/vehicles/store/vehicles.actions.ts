@@ -15,19 +15,19 @@ export const loadVehiclesFailure = createAction(
 );
 //#endregion
 
-export const addVehicles = createAction(
-    '[Vehicles] Add Vehicle',
-    props<{ vehicle: Vehicle; }>()
-);
+// export const addVehicles = createAction(
+//     '[Vehicles] Add Vehicle',
+//     props<{ vehicle: Vehicle; }>()
+// );
 
-export const removeVehicles = createAction(
+export const removeById = createAction(
     '[Vehicles] Remove Vehicle',
     props<{ id: number; }>()
 );
 
-export const findById = createAction(
-    '[Vehicles] Find vehicle by id',
-    props<{ id: number; }>()
-);
+// export const findById = createAction(
+//     '[Vehicles] Find vehicle by id',
+//     props<{ id: number; }>()
+// );
 
  

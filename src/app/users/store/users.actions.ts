@@ -16,18 +16,18 @@ export const loadUsersFailure = createAction(
 );
 //#endregion
 
-export const addUser = createAction(
-  '[Users] Add User',
-  props<{ user: User; }>()
-);
+// export const addUser = createAction(
+//   '[Users] Add User',
+//   props<{ user: User; }>()
+// );
 
-export const removeUser = createAction(
+export const removeById = createAction(
   '[Users] Remove User',
   props<{ id: number; }>()
 );
 
-export const findById = createAction(
-  '[Users] Find user by id',
-  props<{ id: number; }>()
-);
+// export const findById = createAction(
+//   '[Users] Find user by id',
+//   props<{ id: number; }>()
+// );
 

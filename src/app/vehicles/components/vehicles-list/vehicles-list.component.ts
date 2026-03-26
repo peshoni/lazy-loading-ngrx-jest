@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Vehicle } from '../../models/models';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
+import * as VehiclesActions from './../../store/vehicles.actions';
 
 
 @Component({
@@ -19,17 +20,18 @@ import { Store } from '@ngrx/store';
   imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatIcon, MatMenuModule, MatButtonModule, AsyncPipe],
 })
 export class VehiclesListComponent implements AfterViewInit {
+  private store: Store = inject(Store);
   private router: Router = inject(Router);
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute); 
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<Vehicle>;
-  dataSource:VehiclesListDataSource =  new VehiclesListDataSource( );
+  dataSource: VehiclesListDataSource = new VehiclesListDataSource();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'brand', 'fuel','actions'];
-  constructor(){
-  //  this. dataSource  = new VehiclesListDataSource( );
+  displayedColumns = ['id', 'brand', 'fuel', 'actions'];
+  constructor() {
+    //  this. dataSource  = new VehiclesListDataSource( );
   }
 
   ngAfterViewInit(): void {
@@ -40,5 +42,8 @@ export class VehiclesListComponent implements AfterViewInit {
   showDetails(row: any) { //
     // console.log(this.activatedRoute);
     this.router.navigate(['details/' + row.id], { relativeTo: this.activatedRoute });
+  }
+  deleteRow(row: Vehicle) {
+    this.store.dispatch(VehiclesActions.removeById({ id: row.id }));
   }
 }

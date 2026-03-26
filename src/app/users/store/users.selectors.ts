@@ -10,7 +10,7 @@ export const selectUsers = createSelector(
 );
 
 // getById
-export const selectUserById = (id: number) =>
+export const selectById = (id: number) =>
     createSelector(
         selectUsers,
         (users) => users.find(u => u.id === id)

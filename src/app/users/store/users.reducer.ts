@@ -37,13 +37,12 @@ export const usersReducer = createReducer(
     })),
     //#endregion
 
-    on(UsersActions.addUser, (state, { user }) => ({
-        ...state,
-        users: [...state.users, user]
-    })),
-
-    on(UsersActions.removeUser, (state, { id }) => ({
+    on(UsersActions.removeById, (state, { id }) => ({
         ...state,
         users: state.users.filter(u => u.id !== id)
     })),
+    // on(UsersActions.addUser, (state, { user }) => ({
+    //     ...state,
+    //     users: [...state.users, user]
+    // })),
 );

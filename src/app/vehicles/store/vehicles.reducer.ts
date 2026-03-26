@@ -38,12 +38,12 @@ export const vehiclesReducer = createReducer(
     })),
     //#endregion
 
-    on(VehiclesActions.addVehicles, (state, { vehicle }) => ({
-        ...state,
-        vehicles: [...state.vehicles, vehicle]
-    })),
+    // on(VehiclesActions.addVehicles, (state, { vehicle }) => ({
+    //     ...state,
+    //     vehicles: [...state.vehicles, vehicle]
+    // })),
 
-    on(VehiclesActions.removeVehicles, (state, { id }) => ({
+    on(VehiclesActions.removeById, (state, { id }) => ({
         ...state,
         vehicles: state.vehicles.filter(u => u.id !== id)
     })), 
