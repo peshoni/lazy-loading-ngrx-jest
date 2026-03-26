@@ -48,3 +48,10 @@ mat-toolbar {
 .mat-column-actions {
   width: 80px;
 }
+
+mat-card-actions{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 20px;
+}

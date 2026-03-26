@@ -43,9 +43,9 @@ export const vehiclesReducer = createReducer(
     //     vehicles: [...state.vehicles, vehicle]
     // })),
 
-    on(VehiclesActions.removeById, (state, { id }) => ({
-        ...state,
-        vehicles: state.vehicles.filter(u => u.id !== id)
-    })), 
+    // on(VehiclesActions.removeById, (state, { id }) => ({
+    //     ...state,
+    //     vehicles: state.vehicles.filter(u => u.id !== id)
+    // })), 
     
 );

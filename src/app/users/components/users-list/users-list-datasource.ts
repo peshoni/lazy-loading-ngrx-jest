@@ -44,6 +44,7 @@ export class UsersListDataSource extends DataSource<User> {
             const { startIndex, endIndex } = this.getIndexes(pageEvent);
             return this.store.select(page(startIndex, endIndex));
           } else if (this.paginator) {
+            console.log(fromWhere);
             const { startIndex, endIndex } = this.getIndexes(this.paginator);
             return this.store.select(page(startIndex, endIndex));
           }

@@ -1,5 +1,6 @@
-import { Component, computed, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { MainOutletComponent } from "./main-outlet/main-outlet.component";
+import { UsersService } from './api/users.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { MainOutletComponent } from "./main-outlet/main-outlet.component";
   styleUrl: './app.scss',
   standalone: true
 })
-export class App {
+export class App { 
   count = 0;
   readonly greeting: WritableSignal<string | undefined> = signal(undefined);
   readonly name: WritableSignal<string | undefined> = signal(undefined);

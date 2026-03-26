@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
@@ -9,14 +9,12 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { VehiclesEffects } from './vehicles/store/vehicles.effects';
 import { vehiclesReducer } from './vehicles/store/vehicles.reducer';
 import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
-
+import { UsersService } from './api/users.service';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 // import { withAnimations } from '@angular/platform-browser/animations';
 export const appConfig: ApplicationConfig = {
   providers: [
-    // withAnimations(),
-  provideAnimations(),
-    // provideNoopAnimations(),
-  
+    provideAnimations(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([])),
@@ -24,6 +22,13 @@ export const appConfig: ApplicationConfig = {
       users: usersReducer,
       vehicles: vehiclesReducer
     }),
-    provideEffects([UsersEffects, VehiclesEffects])
+    provideEffects([UsersEffects, VehiclesEffects]),
+    provideStoreDevtools({
+      maxAge: 25, // Запазва последните 25 състояния
+      logOnly: !isDevMode(), // В продукция само логва, без да позволява промени
+      autoPause: true, // Паузира при неактивен таб (за производителност)
+      trace: false, // Дали да записва stack trace за всеки екшън
+      traceLimit: 75, // Лимит на трасирането 
+    })
   ]
 };

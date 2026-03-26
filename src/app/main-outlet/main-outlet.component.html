@@ -3,8 +3,8 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <mat-toolbar color="primary">Menu</mat-toolbar> 
     <mat-nav-list data-testid="navigation"> 
-      <a mat-list-item href="users" [ngClass]="{'active': currentPath === 'users'}">users</a>
-      <a mat-list-item href="vehicles" [ngClass]="{'active': currentPath === 'vehicles'}">vehicles</a>
+      <a mat-list-item routerLink="/users" [ngClass]="{'active': currentPath === 'users'}">users</a>
+      <a mat-list-item routerLink="/vehicles"  [ngClass]="{'active': currentPath === 'vehicles'}">vehicles</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

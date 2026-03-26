@@ -3,7 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as UsersActions from './users.actions';
 
 export interface UsersState {
-    users: User[]; 
+    users: User[];
     loading: boolean;
     error: any;
 }
@@ -41,8 +41,10 @@ export const usersReducer = createReducer(
         ...state,
         users: state.users.filter(u => u.id !== id)
     })),
-    // on(UsersActions.addUser, (state, { user }) => ({
-    //     ...state,
-    //     users: [...state.users, user]
-    // })),
-);
+
+    on(UsersActions.updateUserSuccess, (state, { user }) => ({
+        ...state,
+        users: state.users.map(u => u.id === user.id ? user : u) 
+    })),
+
+); 

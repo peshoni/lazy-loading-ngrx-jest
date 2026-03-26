@@ -27,20 +27,14 @@ export class VehiclesListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<Vehicle>;
   dataSource: VehiclesListDataSource = new VehiclesListDataSource();
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'brand', 'fuel', 'actions'];
-  constructor() {
-    //  this. dataSource  = new VehiclesListDataSource( );
-  }
+  displayedColumns: (keyof (Vehicle & { actions: ''; }))[] = ['id', 'brand', 'fuel', 'actions'];
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
   }
-  showDetails(row: any) { //
-    // console.log(this.activatedRoute);
+  showDetails(row: Vehicle) {  
     this.router.navigate(['details/' + row.id], { relativeTo: this.activatedRoute });
   }
   deleteRow(row: Vehicle) {

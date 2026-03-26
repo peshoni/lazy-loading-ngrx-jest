@@ -15,10 +15,10 @@ export const loadVehiclesFailure = createAction(
 );
 //#endregion
 
-// export const addVehicles = createAction(
-//     '[Vehicles] Add Vehicle',
-//     props<{ vehicle: Vehicle; }>()
-// );
+export const updateVehicle = createAction(
+    '[Vehicles] Update Vehicle',
+    props<{ vehicle: Vehicle; }>()
+);
 
 export const removeById = createAction(
     '[Vehicles] Remove Vehicle',

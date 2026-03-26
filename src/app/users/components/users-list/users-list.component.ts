@@ -30,7 +30,7 @@ export class UsersListComponent implements AfterViewInit {
   dataSource = new UsersListDataSource();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name', 'family', 'actions'];
+  displayedColumns: (keyof (User & { actions: ''; }))[] = ['id', 'name', 'family', 'actions'];
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
@@ -38,11 +38,10 @@ export class UsersListComponent implements AfterViewInit {
     this.table.dataSource = this.dataSource;
   }
 
-  showDetails(row: any) {
-    console.log(row);
+  showDetails(row: User) { 
     this.router.navigate(['details/' + row.id], { relativeTo: this.activatedRoute });
   }
-  deleteRow(user: User) { 
-    this.store.dispatch(UsersActions.removeById({id:user.id}));
+  deleteRow(user: User) {
+    this.store.dispatch(UsersActions.removeById({ id: user.id }));
   }
 }

@@ -1,0 +1,30 @@
+<form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>{{paramId ? 'Update': 'Create'}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Name" formControlName="name" />
+            @if (form.controls['name'].hasError('required')) {
+            <mat-error>name is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Family" formControlName="family" />
+            @if (form.controls['family'].hasError('required')) {
+            <mat-error>family is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button [disabled]="form.invalid" matButton="elevated" color="primary" type="submit">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

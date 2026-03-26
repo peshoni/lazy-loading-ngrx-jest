@@ -15,7 +15,7 @@ export const USERS_ROUTES: Routes = [
             {
                 path: PathSegments.DETAILS + '/:id',
                 loadComponent: () =>
-                    import('./components/user-details/user-details').then(m => m.UserDetails),
+                    import('./components/user-details/user-details.component').then(m => m.UserDetailsComponent),
             }
         ]
     }

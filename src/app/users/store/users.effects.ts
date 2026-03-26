@@ -1,9 +1,8 @@
-// users.effects.ts
 import { inject, Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UsersService } from '../services/users.service';
-import * as UsersActions from './users.actions';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { Actions, createEffect, ofType, } from '@ngrx/effects';
+import { UsersService } from '../../api/users.service';
+import { loadUsers, loadUsersSuccess, loadUsersFailure, updateUser, updateUserSuccess, updateUsersFailure } from './users.actions';
+import { catchError, exhaustMap, map, mergeMap, of } from 'rxjs';
 
 @Injectable()
 export class UsersEffects {
@@ -11,25 +10,29 @@ export class UsersEffects {
 
     loadUsers$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(UsersActions.loadUsers), // When this action is dispatched, a request will be made to load the data 
+            ofType(loadUsers), // When this action is dispatched, a request will be made to load the data 
             mergeMap((_) => {
                 console.log(_);
                 return this.usersService.getUsers().pipe(
-                    map(users =>
-                        UsersActions.loadUsersSuccess({ users })
-                    ),
-                    catchError(error =>
-                        of(UsersActions.loadUsersFailure({ error }))
-                    )
+                    map(users => loadUsersSuccess({ users })),
+                    catchError(error => of(loadUsersFailure({ error })))
                 );
             })
         )
     );
 
-    constructor(
+    updateUser$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(updateUser),
+            exhaustMap(({ user }) => {
+                return this.usersService.update(user).pipe(
+                    map(updatedUser => updateUserSuccess({ user: updatedUser })),
+                    catchError(error => of(updateUsersFailure({ error })))
+                );
+            })
+        )
+    );
 
-        private usersService: UsersService
-    ) {
-        console.log('Actions:', this.actions$);
+    constructor(private usersService: UsersService) {
     }
 }
