@@ -1,33 +1,19 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Vehicle } from '../models/models';
 
-//#region  Effects 
-export const loadVehicles = createAction('[Vehicles] Load Vehicles');
+export const VehiclesApiActions = createActionGroup({
+  source: 'Vehicles API',
+  events: {
+    '[Vehicles] Load Vehicles': emptyProps(),
+    '[Vehicles] Load Vehicles Success': props<{ vehicles: Vehicle[]; }>(),
+    // 
+    '[Vehicles] Remove Vehicle': props<{ id: number; }>(),
+    '[Vehicles] Remove Vehicle success': props<{ id: number; }>(),
+    // 
+    '[Vehicles] Update Vehicle': props<{ vehicle: Vehicle; }>(),
+    '[Vehicles] Update Vehicle success': props<{ vehicle: Vehicle; }>(),
+    // Common error action
+    '[Vehicles] Api-error': props<{ error: string; }>(),
+  },
+});
 
-export const loadVehiclesSuccess = createAction(
-  '[Vehicles] Load Vehicles Success',
-  props<{ vehicles: Vehicle[] }>()
-);
-
-export const loadVehiclesFailure = createAction(
-  '[Vehicles] Load Vehicles Failure',
-  props<{ error: any }>()
-);
-//#endregion
-
-export const updateVehicle = createAction(
-    '[Vehicles] Update Vehicle',
-    props<{ vehicle: Vehicle; }>()
-);
-
-export const removeById = createAction(
-    '[Vehicles] Remove Vehicle',
-    props<{ id: number; }>()
-);
-
-// export const findById = createAction(
-//     '[Vehicles] Find vehicle by id',
-//     props<{ id: number; }>()
-// );
-
- 

@@ -1,6 +1,6 @@
 
 import { createReducer, on } from '@ngrx/store';
-import * as VehiclesActions from './vehicles.actions';
+import { VehiclesApiActions } from './vehicles.actions';
 import { Vehicle } from '../models/models';
 
 export interface VehiclesState {
@@ -20,18 +20,18 @@ export const initialState: VehiclesState = {
 export const vehiclesReducer = createReducer(
     initialState,
     //#region 
-    on(VehiclesActions.loadVehicles, (state) => ({
+    on(VehiclesApiActions['[Vehicles]LoadVehicles'], (state) => ({
         ...state,
         loading: true
     })),
 
-    on(VehiclesActions.loadVehiclesSuccess, (state, { vehicles }) => ({
+    on(VehiclesApiActions['[Vehicles]LoadVehiclesSuccess'], (state, { vehicles }) => ({
         ...state,
         vehicles,
         loading: false
     })),
 
-    on(VehiclesActions.loadVehiclesFailure, (state, { error }) => ({
+    on(VehiclesApiActions['[Vehicles]Api-error'], (state, { error }) => ({
         ...state,
         error,
         loading: false
@@ -47,5 +47,5 @@ export const vehiclesReducer = createReducer(
     //     ...state,
     //     vehicles: state.vehicles.filter(u => u.id !== id)
     // })), 
-    
+
 );

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as VehicleActions from './vehicles.actions';
+import {VehiclesApiActions } from './vehicles.actions';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { VehiclesService } from '../../api/vehicles.service';
 
@@ -11,15 +11,14 @@ export class VehiclesEffects {
 
     loadVehicles$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(VehicleActions.loadVehicles),
+            ofType(VehiclesApiActions['[Vehicles]LoadVehicles']),
             mergeMap((_) => {
                 console.log(_);
                 return this.vehiclesService.getVehicles().pipe(
-                    map(vehicles =>
-                        VehicleActions.loadVehiclesSuccess({ vehicles })
+                    map(vehicles => VehiclesApiActions['[Vehicles]LoadVehiclesSuccess'] ({ vehicles })
                     ),
                     catchError(error =>
-                        of(VehicleActions.loadVehiclesFailure({ error }))
+                        of(VehiclesApiActions['[Vehicles]Api-error']({ error }))
                     )
                 );
             }

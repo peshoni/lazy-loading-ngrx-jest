@@ -1,6 +1,6 @@
 import { User } from "../models/models";
 import { createReducer, on } from '@ngrx/store';
-import * as UsersActions from './users.actions';
+import { UserApiActions } from './users.actions';
 
 export interface UsersState {
     users: User[];
@@ -19,32 +19,32 @@ export const initialState: UsersState = {
 export const usersReducer = createReducer(
     initialState,
     //#region 
-    on(UsersActions.loadUsers, (state) => ({
+    on(UserApiActions["[Users]Load-Users"], (state) => ({
         ...state,
         loading: true
     })),
 
-    on(UsersActions.loadUsersSuccess, (state, { users }) => ({
+    on(UserApiActions["[Users]LoadUsersSuccess"], (state, { users }) => ({
         ...state,
         users,
         loading: false
     })),
 
-    on(UsersActions.loadUsersFailure, (state, { error }) => ({
+    on(UserApiActions["[Users]Api-error"], (state, { error }) => ({
         ...state,
         error,
         loading: false
     })),
     //#endregion
 
-    on(UsersActions.removeById, (state, { id }) => ({
+    on(UserApiActions["[Users]RemoveUser"], (state, { id }) => ({
         ...state,
         users: state.users.filter(u => u.id !== id)
     })),
 
-    on(UsersActions.updateUserSuccess, (state, { user }) => ({
+    on(UserApiActions["[Users]UpdateUserSuccess"], (state, { user }) => ({
         ...state,
-        users: state.users.map(u => u.id === user.id ? user : u) 
+        users: state.users.map(u => u.id === user.id ? user : u)
     })),
 
 ); 
