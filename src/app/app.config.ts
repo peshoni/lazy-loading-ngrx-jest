@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
@@ -6,12 +6,10 @@ import { usersReducer } from './users/store/users.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { UsersEffects } from './users/store/users.effects';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { VehiclesEffects } from './vehicles/store/vehicles.effects';
-import { vehiclesReducer } from './vehicles/store/vehicles.reducer';
-import { provideNoopAnimations, provideAnimations } from '@angular/platform-browser/animations';
-import { UsersService } from './api/users.service';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-// import { withAnimations } from '@angular/platform-browser/animations';
+import { VehiclesDataStore } from './vehicles/signal-store/vehicles.datasource';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
@@ -19,10 +17,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([])),
     provideStore({
-      users: usersReducer,
-      vehicles: vehiclesReducer
+      users: usersReducer
     }),
-    provideEffects([UsersEffects, VehiclesEffects]),
+    provideEffects([UsersEffects]),
+    VehiclesDataStore,
     provideStoreDevtools({
       maxAge: 25, // Запазва последните 25 състояния
       logOnly: !isDevMode(), // В продукция само логва, без да позволява промени

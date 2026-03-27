@@ -9,18 +9,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { Vehicle } from '../../models/models';
 import { AsyncPipe } from '@angular/common';
-import { Store } from '@ngrx/store';
-import * as VehiclesActions from './../../store/vehicles.actions';
-
+import { VehiclesDataStore } from '../../signal-store/vehicles.datasource';
 
 @Component({
   selector: 'app-vehicles-list',
   templateUrl: './vehicles-list.component.html',
   styleUrl: './vehicles-list.component.scss',
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatIcon, MatMenuModule, MatButtonModule, AsyncPipe],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatIcon, MatMenuModule, MatButtonModule],
 })
 export class VehiclesListComponent implements AfterViewInit {
-  private store: Store = inject(Store);
+  readonly vehiclesDataStore = inject(VehiclesDataStore);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -34,10 +32,10 @@ export class VehiclesListComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
   }
-  showDetails(row: Vehicle) {  
+  showDetails(row: Vehicle) {
     this.router.navigate(['details/' + row.id], { relativeTo: this.activatedRoute });
   }
   deleteRow(row: Vehicle) {
-    this.store.dispatch(VehiclesActions.removeById({ id: row.id }));
+    this.vehiclesDataStore.removeVehicle(row.id);
   }
 }

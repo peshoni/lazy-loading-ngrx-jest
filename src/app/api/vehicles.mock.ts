@@ -1,4 +1,4 @@
-import { Vehicle } from "../models/models";
+import { Vehicle } from "../vehicles/models/models";
  
 export const EXAMPLE_VEHICLES_DATA: Vehicle[] = [
   { id: 1, brand: 'Tesla', fuel: 'electric' },

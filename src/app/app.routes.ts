@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { PathSegments } from './shared/path-segments.enum';
 import { canActivateUserDomainGuard } from './users/guards/can-activate-user-domain-guard';
 import { canActivateVehiclesDomainGuard } from './vehicles/guards/can-activate-vehicles-domain-guard';
-import { loadUsers } from './users/store/users.actions';
 import { loadUsersResolver } from './users/resolvers/load-users-resolver';
 import { loadVehiclesResolver } from './vehicles/resolvers/load-vehicles-resolver';
 

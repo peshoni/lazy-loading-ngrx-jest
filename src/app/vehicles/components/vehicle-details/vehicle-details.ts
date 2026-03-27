@@ -1,31 +1,25 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MemoizedSelector, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Vehicle } from '../../models/models';
-import { selectVehicleById } from '../../store/vehicles.selectors';
-import { User } from '../../../users/models/models';
-import { PepeStore } from '../../store/my-store';
+import { VehiclesDataStore } from '../../signal-store/vehicles.datasource';
 @Component({
   selector: 'app-vehicle-details',
-  imports: [JsonPipe, AsyncPipe],
+  imports: [JsonPipe],
   templateUrl: './vehicle-details.html',
   styleUrl: './vehicle-details.scss',
 })
-export class VehicleDetails {
-  private store: Store<User> = inject(Store<User>);
+export class VehicleDetails implements OnDestroy {
+  private vehiclesDataStore = inject(VehiclesDataStore);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  vehicle$!: Observable<Vehicle | undefined>;
+  vehicle!: Vehicle | null;
   paramId: number;
   constructor() {
     this.paramId = +this.activatedRoute.snapshot.params['id'];
-    this.vehicle$ = this.store.select(selectVehicleById(this.paramId));
-    // this.store.selectSignal(selectVehicleById(this.paramId))()
-    // const a: MemoizedSelector<object, Vehicle | undefined, (s1: Vehicle[]) => Vehicle | undefined> = selectVehicleById(this.paramId); 
-    // const vehicle: Vehicle | undefined = this.store.instant(selectVehicleById(this.paramId));
-
-
-    // console.log(vehicle);
+    this.vehiclesDataStore.selectById(this.paramId);
+    this.vehicle = this.vehiclesDataStore.selectedEntity();
+  }
+  ngOnDestroy(): void {
+    this.vehiclesDataStore.clearSelection();
   }
 }

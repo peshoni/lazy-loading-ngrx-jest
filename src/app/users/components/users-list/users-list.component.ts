@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe } from '@angular/common';
 import { User } from '../../models/models';
 import { Store } from '@ngrx/store';
-import * as UsersActions from './../../store/users.actions';
+import { UserApiActions } from './../../store/users.actions';
 
 @Component({
   selector: 'app-users-list',
@@ -38,10 +38,10 @@ export class UsersListComponent implements AfterViewInit {
     this.table.dataSource = this.dataSource;
   }
 
-  showDetails(row: User) { 
+  showDetails(row: User) {
     this.router.navigate(['details/' + row.id], { relativeTo: this.activatedRoute });
   }
   deleteRow(user: User) {
-    this.store.dispatch(UsersActions.removeById({ id: user.id }));
+    this.store.dispatch(UserApiActions['[Users]RemoveUser']({ id: user.id }));
   }
 }

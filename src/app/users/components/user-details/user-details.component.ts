@@ -8,10 +8,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { User } from '../../models/models';
 import { selectById } from '../../store/users.selectors';
-import * as UsersActions from './../../store/users.actions';
+import { UserApiActions } from './../../store/users.actions';
 import { PathSegments } from '../../../shared/path-segments.enum';
 
 @Component({
@@ -55,7 +54,7 @@ export class UserDetailsComponent {
       id: this.paramId
     } as User;
     if (this.paramId) {
-      this.store.dispatch(UsersActions.updateUser({ user }));
+      this.store.dispatch(UserApiActions['[Users]UpdateUser']({ user }));
       this.router.navigate([PathSegments.USERS]);
     } else {
       alert('Create new entry');

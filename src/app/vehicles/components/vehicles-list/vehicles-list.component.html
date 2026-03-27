@@ -39,7 +39,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator data-testid="paginator" #paginator [length]="(dataSource.vehicles$| async)?.length" [pageIndex]="0"
-    [pageSize]="5" [pageSizeOptions]="[5, 10]" aria-label="Select page">
+  <mat-paginator data-testid="paginator" #paginator [length]="dataSource.vehiclesDataStore.entities().length"
+    [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10]" aria-label="Select page">
   </mat-paginator>
 </div>

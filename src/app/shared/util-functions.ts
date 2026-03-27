@@ -1,4 +1,4 @@
-export function sortItems<T>(direction: string, items: T[], property: keyof T, offset: number, pageSize: number) {
+export function sortItems<T>(direction: string, items: T[], property: keyof T, offset: number, pageSize: number):T[] {
     const isAsc = direction === 'asc';
     const value = items[0]?.[property];
     const temp: T[] = [...items];

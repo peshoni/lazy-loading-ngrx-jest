@@ -4,19 +4,19 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, merge, of } from 'rxjs';
 import { Vehicle } from '../../models/models';
-import { Store } from '@ngrx/store';
 import { inject } from '@angular/core';
-import { page, selectVehicles, sortVehicles } from './../../store/vehicles.selectors'; 
+import { VehiclesDataStore } from '../../signal-store/vehicles.datasource';
+import { sortItems } from '../../../shared/util-functions';
 
 export class VehiclesListDataSource extends DataSource<Vehicle> {
-  private store: Store = inject(Store);
+  readonly vehiclesDataStore = inject(VehiclesDataStore);
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
   vehicles$: Observable<Vehicle[]>;
 
   constructor() {
     super();
-    this.vehicles$ = this.store.select(selectVehicles);
+    this.vehicles$ = this.vehiclesDataStore.getCurrentState$();//.loadAll();// this.store.select(selectVehicles);
   }
 
   /**
@@ -26,21 +26,26 @@ export class VehiclesListDataSource extends DataSource<Vehicle> {
    */
   connect(): Observable<Vehicle[]> {
     if (this.paginator && this.sort) {
-      return merge(this.vehicles$, this.paginator.page, this.sort.sortChange).pipe(
+      // const a: Observable<Vehicle[]> = of(this.vehiclesDataStore.entities());
+      return merge(this.vehiclesDataStore.getCurrentState$(), this.paginator.page, this.sort.sortChange).pipe(
         switchMap((fromWhere) => {
+          const entities: Vehicle[] = this.vehiclesDataStore.entities();
           if (Object.hasOwn(fromWhere, 'direction')) { // Sorting
             const sort: Sort = fromWhere as Sort;
             if (this.paginator) {
               const { startIndex, endIndex } = this.getIndexes(this.paginator);
-              return this.store.select(sortVehicles<Vehicle>(sort.active as keyof Vehicle, sort.direction, startIndex, endIndex));
+              return of(sortItems(sort.active, this.vehiclesDataStore.entities(), sort.active as keyof Vehicle, startIndex, endIndex));
+              // return  sortItems<Vehicle> ( ) this.vehiclesDataStore.sortVehicles(sort.active as keyof Vehicle, sort.direction, startIndex, endIndex)
+              // this.store.select(sortVehicles<Vehicle>(sort.active as keyof Vehicle, sort.direction, startIndex, endIndex));
             }
           } else if (Object.hasOwn(fromWhere, 'previousPageIndex')) { // Pagination
             const pageEvent: PageEvent = fromWhere as PageEvent;
             const { startIndex, endIndex } = this.getIndexes(pageEvent);
-            return this.store.select(page(startIndex, endIndex));
+            // const vehicles:Vehicle[] = this.vehiclesDataStore.entities();
+            return of(entities.slice(startIndex, endIndex));// this.store.select(page(startIndex, endIndex));
           } else if (this.paginator) {
             const { startIndex, endIndex } = this.getIndexes(this.paginator);
-            return this.store.select(page(startIndex, endIndex));
+            return of(this.vehiclesDataStore.entities().slice(startIndex, endIndex)); //this.store.select(page(startIndex, endIndex));
           }
 
           return of(fromWhere as Vehicle[]);

@@ -28,7 +28,25 @@ This will compile your project and store the build artifacts in the `dist/` dire
 npm test
 ```
 
-## Additional Resources
+## State Management Architecture
+This project leverages a hybrid state management approach using NgRx, combining the power of the classic Redux pattern with the simplicity of modern Signals.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Global State (Classic NgRx)
+Used for cross-cutting concerns and complex application logic where event traceability is critical.
+Store & Reducers: Handles global application state and immutable data flow.
+Actions: Explicitly defines unique events across the system (e.g., Auth, Global Settings).
+Effects: Manages side effects and complex asynchronous orchestrations.
 
+- Reactive Data Services (NgRx SignalStore)
+Used for entity-based state and individual API endpoints (e.g., Vehicles, Users) to reduce boilerplate.
+Signal-Based: Built on Angular Signals for fine-grained reactivity and optimal performance without the need for the async pipe.
+withEntities: Provides high-performance CRUD operations using an internal entityMap (O(1) lookup).
+withComputed: Derives state automatically (e.g., filteredEntities, selectedEntity) with built-in memoization.
+rxMethod: Handles asynchronous API calls in a declarative way, ensuring automatic cleanup and race-condition management.
+
+- Why this Hybrid Approach?  
+Scalability: Classic NgRx provides a clear audit trail for mission-critical logic.
+Developer Experience: SignalStore drastically reduces boilerplate for standard CRUD modules.
+Performance: Signals minimize change detection cycles, making the UI highly responsive.
+
+ 

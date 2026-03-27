@@ -1,10 +1,9 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as VehiclesActions from './../store/vehicles.actions';
+import { VehiclesDataStore } from '../signal-store/vehicles.datasource';
 
 export const loadVehiclesResolver: ResolveFn<boolean> = (route, state) => {
-  const store: Store = inject(Store);
-  store.dispatch(VehiclesActions.loadVehicles());
+  const vehiclesDataStore = inject(VehiclesDataStore);
+  vehiclesDataStore.loadAll();
   return true;
 };
